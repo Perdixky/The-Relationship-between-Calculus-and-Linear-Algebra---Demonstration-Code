@@ -1,36 +1,33 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-x = int(input("Enter the number of iterations: "))
+x = int(input("请输入迭代次数: "))
 
-# Define the identity matrix E and the matrix P
+# 定义单位矩阵E和矩阵P
 E = np.array([[1, 0], [0, 1]])
 P = np.array([[0, -1], [1, 0]])
 vector = np.array([2, 2])
 
-# Function to calculate (E + (1/n * P))^n * vector for a given n
+# 函数用于计算给定n的(E + (1/n * P))^n * vector
 def calculate_vector_updated(n):
     if n != 0:
         return np.linalg.matrix_power(E + (1 / x) * P, n) @ vector
     else:
-        return vector  # When n is 0, the result is the original vector
+        return vector  # 当n为0时，结果是原始向量
 
-# Calculating vectors for n from 0 to x
+# 计算从0到x的n的向量
 n_values_updated = range(x + 1)
 vectors_updated = [calculate_vector_updated(n) for n in n_values_updated]
 
-# Colors for each vector
+# 每个向量的颜色
 color_cycle = plt.cm.viridis(np.linspace(0, 1, x + 1))
 
-# Plotting with different colors
+# 用不同颜色绘制
 plt.figure(figsize=(10, 8))
 for n, v, color in zip(n_values_updated, vectors_updated, color_cycle):
     plt.quiver(0, 0, v[0], v[1], angles='xy', scale_units='xy', scale=1, color=color, label=f'n={n}')
 
-# Adjust the axis limits based on the vectors
-all_vectors = np.array(vectors_updated)
-x_min, y_min = np.min(all_vectors, axis=0)
-x_max, y_max = np.max(all_vectors, axis=0)
+# 调整坐标轴限制
 plt.xlim(-1, 2.5)
 plt.ylim(0, 3.3)
 
@@ -38,5 +35,5 @@ plt.axhline(0, color='black', linewidth=0.5)
 plt.axvline(0, color='black', linewidth=0.5)
 plt.grid(color='gray', linestyle='--', linewidth=0.5)
 plt.legend()
-plt.title('Vectors for (E + (1/n * P))^n * [2, 2] with n from 0 to x, Each in Different Color')
+plt.title('向量 (E + (1/n * P))^n * [2, 2] 随着n从0到x变化，每个用不同的颜色表示')
 plt.show()
